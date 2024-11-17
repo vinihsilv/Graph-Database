@@ -1,0 +1,21 @@
+RETORNANDO HISTORICO ESCOLAR DE TODOS OS ALUNOS ----------------
+
+
+MATCH (a:Aluno)-[r:INSCRITO_EM]->(d:Disciplina)
+RETURN a.id_alunos AS ID_Aluno,
+       a.nome_aluno AS NOME_aluno,
+       type(r) AS Tipo_Relacao, 
+       properties(r) AS Propriedades_Relacao, 
+       d.nome_disc AS Nome_Disciplina,
+       d.cod_disc AS COD_DISC
+ORDER BY a.id_alunos;
+
+
+
+ALUNOS APROVADOS -------------
+
+
+MATCH (a:Aluno)-[r:INSCRITO_EM]->(d:Disciplina)
+WHERE r.nota > 5
+RETURN a.id_alunos AS ID_Aluno, a.nome_aluno AS Nome_Aluno, d.cod_disc AS Cod_Disc, d.nome_disc AS Nome_disc, r.ano AS Ano, r.semestre AS Semestre, r.nota AS Nota
+ORDER BY a.id_alunos, r.ano, r.semestre;
