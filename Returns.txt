@@ -19,3 +19,11 @@ MATCH (a:Aluno)-[r:INSCRITO_EM]->(d:Disciplina)
 WHERE r.nota > 5
 RETURN a.id_alunos AS ID_Aluno, a.nome_aluno AS Nome_Aluno, d.cod_disc AS Cod_Disc, d.nome_disc AS Nome_disc, r.ano AS Ano, r.semestre AS Semestre, r.nota AS Nota
 ORDER BY a.id_alunos, r.ano, r.semestre;
+
+
+PROFESSORES CHEFES DE DEPARTAMENTO -------------
+
+
+MATCH (a:Professor)-[r:É_CHEFE_DE]->(d:Departamento) 
+RETURN a.id_professor AS ID_Professor,a.nome_professor AS NOME,type(r) AS tipo_relacao,d.id AS id_Departamento, d.nome AS Nome_Departamento
+ORDER BY a.id_professor
