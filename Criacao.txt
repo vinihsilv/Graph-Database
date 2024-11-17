@@ -1,0 +1,49 @@
+CRIANDO NÓS ALUNOS----
+
+LOAD CSV WITH HEADERS FROM 'file:///aluno_202411061912.csv' AS row
+CREATE(p:Aluno {id_alunos: toInteger(row.id_alunos), nome_aluno: row.nome_aluno})
+
+
+CRIANDO NÓS PROFESSOR---------
+
+
+LOAD CSV WITH HEADERS FROM 'file:///professor_202411061912.csv' AS row
+CREATE(p:Professor {id_professor: toInteger(row.id_professor), nome_professor: row.nome_professor, dep_id: toInteger(row.dep_id)})
+
+
+
+CRIANDO NÓS DEPARTAMENTO -----------
+
+
+LOAD CSV WITH HEADERS FROM 'file:///departamento_202411061912.csv' AS row
+CREATE (:Departamento {id: toInteger(row.dep_id), nome: row.nome_dep, chefe_id: toInteger(row.chefe_dep_id)});
+
+
+
+CRIANDO ARESTAS DEPARTAMENTO PROFESSOR ---------
+
+
+MATCH (p:Professor), (d:Departamento)
+WHERE p.dep_id = d.id
+CREATE (p)-[:PERTENCE_A]->(d);
+
+
+CRIANDO NÓS PARA CURSOS -------
+
+
+LOAD CSV WITH HEADERS FROM 'file:///cursos_202411061912.csv' AS row
+CREATE (:Curso {cod_curso: toInteger(row.cod_curso), nome_curso: row.nome_curso});
+
+
+CRIANDO OS NÓS DISCIPLINA----------
+
+LOAD CSV WITH HEADERS FROM 'file:///disciplinas_202411061912.csv' AS row
+CREATE (:Disciplina {cod_disc: toInteger(row.cod_disc), nome_disc: row.nome_disc});
+
+
+
+CRIANDO ARESTA CHEFE DE DEPARTAMENTO -----------
+
+MATCH (p:Professor), (d:Departamento)
+WHERE p.id_professor = d.chefe_id
+CREATE (p)-[:É_CHEFE_DE]->(d);
