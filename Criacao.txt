@@ -47,3 +47,68 @@ CRIANDO ARESTA CHEFE DE DEPARTAMENTO -----------
 MATCH (p:Professor), (d:Departamento)
 WHERE p.id_professor = d.chefe_id
 CREATE (p)-[:É_CHEFE_DE]->(d);
+
+
+CRIANDO ARESTA CURSO ------------
+
+LOAD CSV WITH HEADERS FROM 'file:///matriz_cursos_202411061912.csv' AS row
+MATCH (d:Disciplina {cod_disc: toInteger(row.cod_disc)})
+MATCH (c:Curso {cod_curso: toInteger(row.cod_curso)})
+CREATE (d)-[:FAZ_PARTE_DE]->(c);
+
+
+
+CRIANDO ARESTAS ALUNOS CURSANDO---------
+
+
+LOAD CSV WITH HEADERS FROM 'file:///alunos_cursando_202411061912.csv' AS row
+MATCH (a:Aluno {id_alunos: toInteger(row.id_aluno)})
+MATCH (c:Curso {cod_curso: toInteger(row.id_curso)})
+MATCH (d:Disciplina {cod_disc: toInteger(row.cod_disc)})
+
+MERGE (a)-[r1:CURSANDO {semestre: row.semestre, ano: toInteger(row.ano), nota: toFloat(row.nota)}]->(c)
+MERGE (a)-[r2:INSCRITO_EM {semestre: row.semestre, ano: toInteger(row.ano), nota: toFloat(row.nota)}]->(d);
+
+
+
+DELETAR DUPLICIDADE---------
+
+MATCH (a:Aluno)-[r:CURSANDO]->(c:Curso)
+WITH a, c, COUNT(r) AS rel_count, COLLECT(r) AS relacoes
+WHERE rel_count > 1
+FOREACH (rel IN relacoes[1..] | DELETE rel);
+
+
+CRIANDO NÓ TCC ------
+
+LOAD CSV WITH HEADERS FROM 'file:///alunos_tcc_202411061912.csv' AS row
+MERGE (t:TCC {id_tcc: toInteger(row.id_tcc)})
+
+
+
+CRIANDO ARESTAS PARA GRUPO DE TCC ---------
+
+LOAD CSV WITH HEADERS FROM 'file:///alunos_tcc_202411061912.csv' AS row
+MATCH (a:Aluno {id_alunos: toInteger(row.id_aluno)})
+MATCH (t:TCC {id_tcc: toInteger(row.id_tcc)})
+MERGE (a)-[:GRUPO_DE_TCC]->(t);
+
+
+
+CRIANDO ARESTA ORIENTADOR DE TCC -----------
+
+LOAD CSV WITH HEADERS FROM 'file:///alunos_tcc_202411061912.csv' AS row
+MATCH (t:TCC {id_tcc: toInteger(row.id_tcc)})
+MATCH (p:Professor {id_professor: toInteger(row.id_professor)})
+MERGE (p)-[:ORIENTADOR_DO_GRUPO]->(t);
+
+
+
+CRIANDO DISCIPLINAS PROFESSOR ----------
+
+LOAD CSV WITH HEADERS FROM 'file:///professor_aulas_202411061912.csv' AS row
+MATCH (a:Professor {id_professor: toInteger(row.id_professor)})
+MATCH (c:Curso {cod_curso: toInteger(row.id_curso)})
+MATCH (d:Disciplina {cod_disc: toInteger(row.cod_disc)})
+
+MERGE (a)-[r1:Lesionando {semestre: row.semestre, ano: toInteger(row.ano)}]->(d)
