@@ -27,3 +27,20 @@ PROFESSORES CHEFES DE DEPARTAMENTO -------------
 MATCH (a:Professor)-[r:É_CHEFE_DE]->(d:Departamento) 
 RETURN a.id_professor AS ID_Professor,a.nome_professor AS NOME,type(r) AS tipo_relacao,d.id AS id_Departamento, d.nome AS Nome_Departamento
 ORDER BY a.id_professor
+
+GRUPOS DE TCC ----------
+
+
+MATCH (a:Aluno)-[r:GRUPO_DE_TCC]->(d:TCC)
+MATCH (p:Professor)-[t:ORIENTADOR_DO_GRUPO]->(d) 
+RETURN a.id_alunos AS ID_Alunos, a.nome_aluno AS Nomes_Alunos, type(r) AS tipo_relacao,d.id_tcc AS ID_GRUPO,p.id_professor AS ID_Professor, p.nome_professor AS Nome_Orientador, type(t) AS ORIENTANDO
+ORDER BY a.id_alunos
+
+
+
+DISCIPLINAS PROFESSOR ----------
+
+
+MATCH (a:Professor)-[r:Lesionando]->(d:Disciplina)
+RETURN a.nome_professor AS Nome_Professor, a.id_professor AS ID_Professor, type(r) AS Lesionando, d.cod_disc AS Cod_Disc, d.nome_disc AS Nome_disc, r.ano AS Ano, r.semestre AS Semestre
+ORDER BY a.id_professor
