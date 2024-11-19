@@ -1,7 +1,7 @@
 # Graph-Database
 O projeto consiste na criação e conversação de um modelo de faculdade desenvolvido em banco de dados relacional e posteriormente convertido para um banco de dados do tipo Graph-database.
 
-O projeto foi desenvolvido utilizando neo4j Desktop e o as arquivos csv para criação do modelo. Para execução do projeto, é preciso realizar o download dos arquivos csv do projeto anterior e mover para a pasta raiz do neo4j Desktop, dessa forma será possível realizar a conversão para modelo em grafo. Para conferência o projeto antigo realizado em modelo relacional foi deixado na pasta Projeto_Anterior caso queira expotar os arquivos você mesmo.
+O projeto foi desenvolvido utilizando neo4j Desktop e o as arquivos csv para criação do modelo. Para execução do projeto, é preciso realizar o download dos arquivos csv do projeto anterior e mover para a pasta raiz do neo4j Desktop, dessa forma será possível realizar a conversão para modelo em grafo. Para conferência o projeto antigo realizado em modelo relacional foi deixado na pasta Projeto_Anterior caso queira exportar os arquivos você mesmo.
 
 Para executar o projeto primeiro crie um projeto no neo4j desktop, após isso transfira todos os arquivos csv presentes na pasta extracao_csv para a pasta raiz do neo4j Desktop geralmente fica em \.Neo4jDesktop\relate-data\dbmss\<Seu_Projeto_Criado>\import caso esteja utilizando outro sistema operacional, é possível que o caminho mude, este foi o caminho utilizando windows como sistema operacional.
 
